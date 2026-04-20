@@ -1,3 +1,16 @@
 spring:
   application:
     name: grid
+  datasource:
+    url: jdbc:mysql://localhost:3306/grid_db
+    username: grid_user
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # use validate / none in production
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
