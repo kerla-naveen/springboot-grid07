@@ -43,13 +43,13 @@ public class CommentService {
         boolean isBotComment = "BOT".equalsIgnoreCase(request.getAuthorType());
 
         if (isBotComment) {
-            // Horizontal cap: max 100 bot replies per post
-            guardrailService.checkAndIncrementBotCount(postId);
-
-            // Cooldown cap: bot can only interact with a given human once per 10 min
+            // Cooldown checked first — no Redis side effects if it rejects
             if ("USER".equalsIgnoreCase(post.getAuthorType())) {
                 guardrailService.checkAndSetCooldown(request.getAuthorId(), post.getAuthorId());
             }
+
+            // Horizontal cap last — only increments after all other checks pass
+            guardrailService.checkAndIncrementBotCount(postId);
         }
 
         Comment comment = Comment.builder()
