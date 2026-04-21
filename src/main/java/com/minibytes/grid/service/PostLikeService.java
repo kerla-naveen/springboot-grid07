@@ -24,8 +24,12 @@ public class PostLikeService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ViralityService viralityService;
+
     public PostLike likePost(Long postId, CreatePostLikeRequest request) {
         log.info("User id={} liking postId={}", request.getUserId(), postId);
+
         if (!postRepository.existsById(postId)) {
             log.warn("Post not found with id={}", postId);
             throw new ResourceNotFoundException("Post not found with id: " + postId);
@@ -48,6 +52,9 @@ public class PostLikeService {
 
         PostLike saved = postLikeRepository.save(postLike);
         log.info("Post like recorded with id={}", saved.getId());
+
+        viralityService.onHumanLike(postId);
+
         return saved;
     }
 }
