@@ -2,6 +2,7 @@ package com.minibytes.grid.service;
 
 import com.minibytes.grid.dto.CreateCommentRequest;
 import com.minibytes.grid.entity.Comment;
+import com.minibytes.grid.exception.ResourceNotFoundException;
 import com.minibytes.grid.repository.CommentRepository;
 import com.minibytes.grid.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +15,13 @@ public class CommentService {
 
     @Autowired
     private CommentRepository commentRepository;
-    
+
     @Autowired
     private PostRepository postRepository;
 
     public Comment createComment(Long postId, CreateCommentRequest request) {
-        // Verify post exists
         if (!postRepository.existsById(postId)) {
-            throw new RuntimeException("Post not found with id: " + postId);
+            throw new ResourceNotFoundException("Post not found with id: " + postId);
         }
 
         Comment comment = Comment.builder()
@@ -32,7 +32,7 @@ public class CommentService {
                 .depthLevel(request.getDepthLevel())
                 .createdAt(LocalDateTime.now())
                 .build();
-        
+
         return commentRepository.save(comment);
     }
 }
