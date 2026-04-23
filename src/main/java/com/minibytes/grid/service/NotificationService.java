@@ -3,9 +3,12 @@ package com.minibytes.grid.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -31,6 +34,23 @@ public class NotificationService {
 
             key="activeUsers:"+userId;
             redisTemplate.opsForValue().set(key, "1");
+        }
+    }
+
+    @Scheduled(cron = "0 */5 * * * *")
+    public void sweepPendingNotifications(){
+
+        Set<String> activeUsers= redisTemplate.keys("activeUsers:*");
+        List<Long> userIds= activeUsers.stream()
+                .map( key -> key.split(":")[1])
+                .map( str -> Long.parseLong(str)).toList();
+
+        for(Long userId : userIds){
+            String key= "pending_notifs:user:"+userId;
+            List<String> messages = redisTemplate.opsForList().range(key, 0, -1);
+            int cnt=messages.size();
+
+            log.info("Summarized Push Notification: still {} notifications are pending to send to {} by bots",cnt,userId);
         }
     }
 }
