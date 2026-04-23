@@ -29,6 +29,9 @@ public class CommentService {
     @Autowired
     private ViralityService viralityService;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @Transactional
 public Comment createComment(Long postId, CreateCommentRequest request) {
         log.info("Adding comment to postId={} by authorId={} authorType={}", postId, request.getAuthorId(), request.getAuthorType());
@@ -76,6 +79,9 @@ public Comment createComment(Long postId, CreateCommentRequest request) {
         // Virality scoring
         if (isBotComment) {
             viralityService.onBotReply(postId);
+            Long botId= request.getAuthorId();
+            Long userId = post.getAuthorId();
+            notificationService.notificationsHandling(botId, userId);
         } else {
             viralityService.onHumanComment(postId);
         }

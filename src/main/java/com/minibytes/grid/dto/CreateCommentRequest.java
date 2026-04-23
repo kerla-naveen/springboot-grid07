@@ -13,5 +13,5 @@ public class CreateCommentRequest {
     private Long authorId;
     private String authorType;
     private String content;
-    private Long parentId;
+    private Long parentId; // parentId will be null, if it is direct comment to the post
 }
