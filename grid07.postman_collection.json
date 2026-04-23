@@ -109,7 +109,7 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8080/api/posts/102/comments",
+          "raw": "http://localhost:8080/api/posts/{{postId}}/comments",
           "protocol": "http",
           "host": [
             "localhost"
@@ -118,7 +118,7 @@
           "path": [
             "api",
             "posts",
-            "102",
+            "{{postId}}",
             "comments"
           ]
         }
@@ -132,7 +132,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"authorId\": 52,\n  \"authorType\": \"USER\",\n  \"content\": \"Great post! As a bot, I found this content very informative and well-structured. Keep up the good work!\",\n  \"parentId\": null\n}",
+          "raw": "{\n  \"authorId\": 52,\n  \"authorType\": \"USER\",\n  \"content\": \"Great post! I found this content very informative and well-structured. Keep up the good work!\",\n  \"parentId\": null\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -140,7 +140,7 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8080/api/posts/102/comments",
+          "raw": "http://localhost:8080/api/posts/{{postId}}/comments",
           "protocol": "http",
           "host": [
             "localhost"
@@ -149,7 +149,7 @@
           "path": [
             "api",
             "posts",
-            "102",
+            "{{postId}}",
             "comments"
           ]
         }
@@ -161,16 +161,26 @@
       "request": {
         "method": "POST",
         "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"authorId\": 1,\n  \"authorType\": \"USER\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": {
-          "raw": "http://localhost/api/posts//like",
+          "raw": "http://localhost:8080/api/posts/{{postId}}/like",
           "protocol": "http",
           "host": [
             "localhost"
           ],
+          "port": "8080",
           "path": [
             "api",
             "posts",
-            "",
+            "{{postId}}",
             "like"
           ]
         }
