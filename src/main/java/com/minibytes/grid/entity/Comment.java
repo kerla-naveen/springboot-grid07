@@ -27,7 +27,10 @@ public class Comment {
 
     String content;
 
-    int depthLevel;
+    // parentId will be null, if it is direct comment to the post
+    // if reply to another comment, parentId will be the id of the comment
+    Long parentId;
 
+    int depthLevel;
     LocalDateTime createdAt;
 }

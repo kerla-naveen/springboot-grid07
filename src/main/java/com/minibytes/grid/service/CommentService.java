@@ -9,6 +9,7 @@ import com.minibytes.grid.repository.PostRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -28,7 +29,8 @@ public class CommentService {
     @Autowired
     private ViralityService viralityService;
 
-    public Comment createComment(Long postId, CreateCommentRequest request) {
+    @Transactional
+public Comment createComment(Long postId, CreateCommentRequest request) {
         log.info("Adding comment to postId={} by authorId={} authorType={}", postId, request.getAuthorId(), request.getAuthorType());
 
         Post post = postRepository.findById(postId)
@@ -37,8 +39,14 @@ public class CommentService {
                     return new ResourceNotFoundException("Post not found with id: " + postId);
                 });
 
+        int depth = 0; // Top-level comments have depth 0
         // Vertical cap applies to all comments
-        guardrailService.checkDepthLevel(request.getDepthLevel());
+        if(request.getParentId()!=null){
+            Comment parentComment = commentRepository.findById(request.getParentId())
+                .orElseThrow(() -> new ResourceNotFoundException("Parent comment not found with id: " + request.getParentId()));
+            depth = parentComment.getDepthLevel() + 1;
+        }
+        guardrailService.checkDepthLevel(depth);
 
         boolean isBotComment = "BOT".equalsIgnoreCase(request.getAuthorType());
 
@@ -52,12 +60,13 @@ public class CommentService {
             guardrailService.checkAndIncrementBotCount(postId);
         }
 
+
         Comment comment = Comment.builder()
                 .postId(postId)
                 .authorId(request.getAuthorId())
                 .authorType(request.getAuthorType())
                 .content(request.getContent())
-                .depthLevel(request.getDepthLevel())
+                .depthLevel(depth)
                 .createdAt(LocalDateTime.now())
                 .build();
 
