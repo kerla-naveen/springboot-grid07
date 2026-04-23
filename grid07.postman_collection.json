@@ -1,0 +1,181 @@
+{
+  "info": {
+    "_postman_id": "61049f11-ce24-49ef-8dc2-a91d462b0e34",
+    "name": "grid07",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "47952402",
+    "_collection_link": "https://go.postman.co/collection/47952402-61049f11-ce24-49ef-8dc2-a91d462b0e34?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "createPost",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"authorId\" : 1,\n    \"authorType\" : \"user\",\n    \"content\" : \"new post content\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/posts",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "posts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "creatUser",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"naveen\",\n  \"isPremium\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/users",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "createBot",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"ChatBot\",\n  \"personaDescription\": \"Friendly AI assistant\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/bots",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "bots"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "commentByBot",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"authorId\": 52,\n  \"authorType\": \"BOT\",\n  \"content\": \"Great post! As a bot, I found this content very informative and well-structured. Keep up the good work!\",\n  \"parentId\": null\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/posts/102/comments",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "posts",
+            "102",
+            "comments"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "commentByUser",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"authorId\": 52,\n  \"authorType\": \"USER\",\n  \"content\": \"Great post! As a bot, I found this content very informative and well-structured. Keep up the good work!\",\n  \"parentId\": null\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/posts/102/comments",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "posts",
+            "102",
+            "comments"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "postLikeByUser",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost/api/posts//like",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "api",
+            "posts",
+            "",
+            "like"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
