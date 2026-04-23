@@ -29,7 +29,7 @@ public class NotificationService {
         }
         else{
             String key= "pending_notifs:user:"+userId;
-            String message="Bot:"+botId+"replied to your post";
+            String message="Bot:"+botId+" replied to your post";
             redisTemplate.opsForList().rightPush(key, message);
 
             key="activeUsers:"+userId;
@@ -48,9 +48,16 @@ public class NotificationService {
         for(Long userId : userIds){
             String key= "pending_notifs:user:"+userId;
             List<String> messages = redisTemplate.opsForList().range(key, 0, -1);
-            int cnt=messages.size();
-
-            log.info("Summarized Push Notification: still {} notifications are pending to send to {} by bots",cnt,userId);
+            
+            if (!messages.isEmpty()) {
+                int count = messages.size();
+                
+                log.info("Summarized Push Notification: Bot interactions for user {}: {} notifications", userId, count);
+                
+                // Clear the Redis list for that user
+                redisTemplate.delete(key);
+                redisTemplate.delete("activeUsers:" + userId);
+            }
         }
     }
 }
