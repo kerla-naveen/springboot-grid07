@@ -1,10 +1,10 @@
-# Grid: Backend Engineering Assignment - Core API & Guardrails
+# Spring Boot Grid - Distributed Social Media Guardrails System
 
 ## Overview
 
-A robust Spring Boot microservice implementing a comprehensive guardrail system with Redis-based atomic operations, virality scoring, and intelligent notification batching. This assignment demonstrates handling concurrent requests, distributed state management, and event-driven scheduling.
+A comprehensive Spring Boot microservice implementing a distributed social media platform with Redis-based atomic operations, virality scoring, and intelligent notification batching. This mini-project demonstrates advanced backend engineering concepts including stateless architecture, distributed locks, and high-concurrency handling.
 
-**Assignment Compliance**: ✅ 100% Complete - All phases implemented and tested
+**Status**: ✅ Complete - All features implemented and tested
 
 ## Architecture Overview
 
@@ -12,7 +12,7 @@ A robust Spring Boot microservice implementing a comprehensive guardrail system 
 **Redis**: Real-time operations - rate limiting, virality tracking, notification batching
 **Stateless Design**: Enables horizontal scalability without session affinity
 
-## Features (Phase-wise Implementation)
+## Features
 
 ### Phase 1: Core Entity Management
 
@@ -85,7 +85,7 @@ public void checkAndSetCooldown(Long botId, Long humanId) {
 }
 ```
 
-## Thread Safety for Atomic Locks in Phase 2
+## Thread Safety for Atomic Locks
 
 ### Approach Overview
 
@@ -211,24 +211,24 @@ redisTemplate.delete("activeUsers:" + userId);  // Clears activeUsers:{userId}
 | `pending_notifs:user:{id}` | List | Queued notifications | None |
 | `activeUsers:{id}` | String | User has pending notifications | None |
 
-## Assignment Compliance Status
+## Implementation Highlights
 
-### ✅ Phase 1: Core API & Database Setup (100% Complete)
+### ✅ Phase 1: Core API & Database Setup
 - **Database Schema**: User, Bot, Post, Comment entities with all required fields
 - **REST Endpoints**: POST /api/posts, POST /api/posts/{postId}/comments, POST /api/posts/{postId}/like
 
-### ✅ Phase 2: Redis Virality Engine & Atomic Locks (100% Complete)
+### ✅ Phase 2: Redis Virality Engine & Atomic Locks
 - **Virality Scoring**: Bot Reply (+1), Human Like (+20), Human Comment (+50)
 - **Horizontal Cap**: 100 bot replies limit with atomic Redis script
 - **Vertical Cap**: 20 depth levels with validation
 - **Cooldown Cap**: 10 minutes TTL for bot-human interactions
 
-### ✅ Phase 3: Notification Engine (100% Complete)
+### ✅ Phase 3: Notification Engine
 - **Redis Throttler**: 15-minute cooldown with pending notification queuing
 - **CRON Sweeper**: Every 5 minutes, processes and clears pending notifications
 - **Message Format**: "Bot X replied to your post"
 
-### ✅ Phase 4: Corner Cases (100% Complete)
+### ✅ Phase 4: Corner Cases & Concurrency
 - **Race Conditions**: Tested with 200 concurrent requests → exactly 100 allowed
 - **Statelessness**: All state stored in Redis, no Java memory usage
 - **Data Integrity**: Redis gatekeeper + PostgreSQL source of truth
